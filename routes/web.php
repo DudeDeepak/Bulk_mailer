@@ -11,8 +11,8 @@
 |
 */
 
-use Illuminate\Support\Facades\Mail;
-use App\Mail\SendEmailMailable;
+use App\Jobs\SendEmailJob;
+use Carbon\Carbon;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,7 +20,9 @@ Route::get('/', function () {
 
 Route::get('/send-mail', function() {
 
-	Mail::to('deepakpalakkal2795@gmail.com')->send(new SendEmailMailable());
-	dd('mail sent');
+	$job = (new SendEmailJob())->delay(Carbon::now()->addSeconds(15));
+	dispatch($job);
+
+	return 'Email Sent';
 
 });
