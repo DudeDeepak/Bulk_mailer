@@ -285,20 +285,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    @foreach($member_list as $member_ele)
+                    
+                    <tr>						
 						<td>
 							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" value="1">
+								<input type="checkbox" id="{{ }}" name="options[]" value="1">
 								<label for="checkbox1"></label>
 							</span>
 						</td>
-                        <td>Thomas Hardy</td>
-                        <td>thomashardy@mail.com</td>
+                        <td>{{ $member_ele->name }}</td>
+                        <td>{{ $member_ele->email }}</td>
                         <td>
                             <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
+
+                    @endforeach
                 </tbody>
             </table>
 			<div class="clearfix">

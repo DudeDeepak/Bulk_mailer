@@ -13,7 +13,11 @@ class MemberController extends Controller
     
     public function list_member() {
 
-    	return view('mail.member_list');
+    	$member_list = Member::get();
+
+    	return view('mail.member_list', [
+    		'member_list' => $member_list
+    	]);
 
     }
 
