@@ -60,6 +60,38 @@ class MemberController extends Controller
 
     public function edit_member(Request $request, $id) {
     	
+		$input = [
+	             'edit-member-name'   => $request->input('edit-member-name'),
+	             'edit-member-email' => $request->input('edit-member-email')
+	              ];
+	  	$rules = [
+	             'edit-member-name'   => 'required',
+	             'edit-member-email' => 'email'
+	             ];
+	  	$messages = [
+	                  'required' => '* fields is mandatory',
+	                  'email'  => 'Please provide email with proper format'
+	                ];
+
+	  	$validator = Validator::make($input, $rules, $messages);
+
+	  	if(Member::where('id', '=', $id)->exists()) {
+
+		  	Member::where('id', '=', $id)->update([
+		  		'name' => $request->input('edit-member-name'),
+		  		'email' => $request->input('edit-member-email')
+	    	]);
+
+		  	Session::flash('success', 'The member information has been updated');
+	    	
+		    return Redirect::to('member-list');
+
+	  	} 
+
+	  	Session::flash('update-issue', 'Some issue caused during update');
+    	
+	    return Redirect::to('member-list');
+
     }
 
     public function delete_member($id) {

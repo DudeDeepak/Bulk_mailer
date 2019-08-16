@@ -237,7 +237,7 @@
     <div class="container">
 
     	<div style="margin: 20px">
-	    	@foreach(['member-already-exist', 'success'] as $msg_key)
+	    	@foreach(['update-issue', 'member-already-exist', 'success'] as $msg_key)
 				@if(Session::has($msg_key))
 					@if($msg_key == 'success')
 						<p class="alert-msg alert alert-success">{{ Session::get($msg_key) }}</p>
@@ -290,15 +290,15 @@
                     <tr>						
 						<td>
 							<span class="custom-checkbox">
-								<input type="checkbox" id="{{ }}" name="options[]" value="1">
+								<input type="checkbox" data-id="{{ $member_ele->id }}" name="options[]" class="sub-checkbox" value="1">
 								<label for="checkbox1"></label>
 							</span>
 						</td>
-                        <td>{{ $member_ele->name }}</td>
-                        <td>{{ $member_ele->email }}</td>
-                        <td>
-                            <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                        <td><div class="member-name">{{ $member_ele->name }}</div></td>
+                        <td><div class="member-email">{{ $member_ele->email }}</div></td>
+                        <td style="width: 15%;">
+                            <a style="display: inline;" class="edit btn btn-sm"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a style="display: inline;" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
 
@@ -351,7 +351,8 @@
 	<div id="editEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form id="edit-modal-form" method="POST" action="">
+					{!! csrf_field() !!}
 					<div class="modal-header">						
 						<h4 class="modal-title">Edit Employee</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -359,11 +360,11 @@
 					<div class="modal-body">					
 						<div class="form-group">
 							<label>Name</label>
-							<input type="text" class="form-control" required>
+							<input id="edit-member-name" name="edit-member-name" type="text" class="form-control" required>
 						</div>
 						<div class="form-group">
 							<label>Email</label>
-							<input type="email" class="form-control" required>
+							<input id="edit-member-email" name="edit-member-email" type="email" class="form-control" required>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -396,6 +397,27 @@
 		</div>
 	</div>
 
+	<div id="mailEmployeeModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form>
+					<div class="modal-header">						
+						<h4 class="modal-title">Send Email</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<p>Are you sure you want to emails to selected members?</p>
+						<p class="text-warning"><small>This action cannot be undone.</small></p>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-success" value="Send">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<script type="text/javascript">
 	$(document).ready(function(){
 		// Activate tooltip
@@ -419,6 +441,23 @@
 				$("#selectAll").prop("checked", false);
 			}
 		});
+
+		$('.edit').click(function() {
+			
+			var member_id = $(this).parent().siblings().find(".sub-checkbox").attr('data-id');
+			var member_name = $(this).parent().siblings().find(".member-name").html();
+			var member_email = $(this).parent().siblings().find(".member-email").html();
+			
+			$('#edit-member-name').val(member_name);
+			$('#edit-member-email').val(member_email);
+
+			$('#edit-modal-form').attr('action', '/edit-member/'+member_id);
+
+			$('#editEmployeeModal').modal('show');
+
+		});
+
+
 
 		$('.alert-msg').fadeOut(3000);
 
