@@ -30,3 +30,16 @@ Route::get('/send-mail', function() {
 	return 'Email Sent';
 
 });
+
+// Route::get('/member-list', function () {
+//     return view('mail.member_list');
+// });
+
+Route::get('/member-list', 'MemberController@list_member');
+
+Route::post('/add-member', 'MemberController@add_member');
+
+Route::post('/edit-member/{$id}', 'MemberController@edit_member');
+
+Route::delete('/delete/{$id}', 'MemberController@delete_member');
+
