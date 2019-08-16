@@ -19,9 +19,12 @@ class SendEmailJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
+
+    private $email;
+
+    public function __construct($email)
     {
-        //
+        $this->email = $email;
     }
 
     /**
@@ -32,7 +35,7 @@ class SendEmailJob implements ShouldQueue
     public function handle()
     {
         
-        Mail::to('deepakpalakkal2795@gmail.com')->send(new SendEmailMailable());
+        Mail::to($this->email)->send(new SendEmailMailable());
 
     }
 }

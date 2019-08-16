@@ -7,7 +7,9 @@ Bulk Mailer is a web application biult on laravel 5.3 to sent bulk email to the 
 ## Steps to run the project  
 
 1 . Clone the project into localhost
+
 2 . Setup the .env with neccessory details (Database conf and email conf is must) 
+
 3 . Run the following command to create required schema in the database :- 
 		
 		php artisan migrate

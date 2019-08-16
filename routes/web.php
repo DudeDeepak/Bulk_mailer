@@ -20,7 +20,9 @@ Route::get('/', function () {
 
 Route::get('/send-mail', function() {
 
-	$job = (new SendEmailJob())->delay(Carbon::now()->addSeconds(15));
+	$email = "deepakpalakkal2795@gmail.com";
+
+	$job = (new SendEmailJob($email))->delay(Carbon::now()->addSeconds(15));
 	dispatch($job);
 
 	return 'Email Sent';
