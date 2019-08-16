@@ -96,6 +96,20 @@ class MemberController extends Controller
 
     public function delete_member($id) {
     	
+	  	if(Member::where('id', '=', $id)->exists()) {
+
+		  	Member::where('id', '=', $id)->delete();
+
+		  	Session::flash('success', 'The member has been deleted');
+	    	
+		    return Redirect::to('member-list');
+
+	  	} 
+
+	  	Session::flash('delete-issue', 'Some issue caused during deleting');
+    	
+	    return Redirect::to('member-list');
+
     }
 
 

@@ -41,5 +41,5 @@ Route::post('/add-member', 'MemberController@add_member');
 
 Route::post('/edit-member/{id}', 'MemberController@edit_member');
 
-Route::delete('/delete/{id}', 'MemberController@delete_member');
+Route::post('/delete-member/{id}', 'MemberController@delete_member');
 

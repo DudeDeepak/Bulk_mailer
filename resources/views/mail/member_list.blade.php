@@ -237,7 +237,7 @@
     <div class="container">
 
     	<div style="margin: 20px">
-	    	@foreach(['update-issue', 'member-already-exist', 'success'] as $msg_key)
+	    	@foreach(['delete-issue', 'update-issue', 'member-already-exist', 'success'] as $msg_key)
 				@if(Session::has($msg_key))
 					@if($msg_key == 'success')
 						<p class="alert-msg alert alert-success">{{ Session::get($msg_key) }}</p>
@@ -266,7 +266,7 @@
 					</div>
 					<div class="col-sm-6">
 						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
-						<a href="#deleteEmployeeModal" class="btn btn-warning" data-toggle="modal"><i class="material-icons">contact_mail</i> <span>Send Mail</span></a>						
+						<a href="#mailEmployeeModal" class="btn btn-warning" data-toggle="modal"><i class="material-icons">contact_mail</i> <span>Send Mail</span></a>						
 					</div>
                 </div>
             </div>
@@ -297,8 +297,8 @@
                         <td><div class="member-name">{{ $member_ele->name }}</div></td>
                         <td><div class="member-email">{{ $member_ele->email }}</div></td>
                         <td style="width: 15%;">
-                            <a style="display: inline;" class="edit btn btn-sm"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a style="display: inline;" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <button style="display: inline;" class="edit btn btn-sm"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
+                            <button style="display: inline;" class="del btn btn-sm"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
                         </td>
                     </tr>
 
@@ -379,7 +379,8 @@
 	<div id="deleteEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form id="delete-modal-form" method="POST" action="">
+					{!! csrf_field() !!}
 					<div class="modal-header">						
 						<h4 class="modal-title">Delete Employee</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -457,7 +458,17 @@
 
 		});
 
+		$('.del').click(function() {
 
+
+			var member_id = $(this).parent().siblings().find(".sub-checkbox").attr('data-id');
+			
+			$('#delete-modal-form').attr('action', '/delete-member/'+member_id);
+			
+			$('#deleteEmployeeModal').modal('show');
+			
+
+		});
 
 		$('.alert-msg').fadeOut(3000);
 
