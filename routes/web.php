@@ -16,11 +16,6 @@
 // use App\Jobs\SendEmailJob;
 // use Carbon\Carbon;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
 // Testing purpose
 
 // Route::get('/send-mail', function() {
@@ -46,7 +41,7 @@ Route::get('/', function () {
 //     return view('mail.member_list');
 // });
 
-Route::get('/member-list', 'MemberController@list_member');
+Route::get('/', 'MemberController@list_member');
 
 Route::post('/add-member', 'MemberController@add_member');
 
