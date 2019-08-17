@@ -40,7 +40,7 @@ Bulk Mailer is a web application biult on laravel 5.3 to sent bulk email to the 
 		MAIL_PASSWORD=<mailtrap-password>
 		MAIL_ENCRYPTION=tls
 
-For sengrid configuration :-
+For sengrid configuration that requires sendgrid package on composer :-
 
 		MAIL_DRIVER=smtp
 		MAIL_HOST=smtp.sendgrid.net
