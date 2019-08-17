@@ -5,7 +5,8 @@
     	</head>
     	<body>
     		<h2 style="margin: 0px auto">Test Email</h2>
-    		<p>{!! $msg !!}</p>
+    		<p> Subject : {!! $subject !!} </p>
+    		<p> Content : {!! $msg !!} </p>
     	</body>
     </html>
 

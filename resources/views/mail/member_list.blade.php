@@ -237,6 +237,12 @@
     <div class="container">
 
     	<div style="margin: 20px">
+    		<p class="send-mail-alert-msg alert alert-success">
+    			Mail has been sent to the selected recipients
+    		</p>
+    	</div>
+
+    	<div style="margin: 20px">
 	    	@foreach(['delete-issue', 'update-issue', 'member-already-exist', 'success'] as $msg_key)
 				@if(Session::has($msg_key))
 					@if($msg_key == 'success')
@@ -297,8 +303,8 @@
                         <td><div class="member-name">{{ $member_ele->name }}</div></td>
                         <td><div class="member-email">{{ $member_ele->email }}</div></td>
                         <td style="width: 15%;">
-                            <button style="display: inline;" class="edit btn btn-sm"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></button>
-                            <button style="display: inline;" class="del btn btn-sm"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
+                            <a style="display: inline;" class="edit btn btn-sm"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a style="display: inline;" class="del btn btn-sm"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
 
@@ -401,20 +407,18 @@
 	<div id="mailEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
-					<div class="modal-header">						
-						<h4 class="modal-title">Send Email</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">					
-						<p>Are you sure you want to emails to selected members?</p>
-						<p class="text-warning"><small>This action cannot be undone.</small></p>
-					</div>
-					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<input type="submit" class="btn btn-success" value="Send">
-					</div>
-				</form>
+				<div class="modal-header">						
+					<h4 class="modal-title">Send Email</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<p>Are you sure you want to emails to selected members?</p>
+					<p class="text-warning"><small>This action cannot be undone.</small></p>
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<button id="send-mail" class="btn btn-success">Send</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -467,6 +471,40 @@
 			
 			$('#deleteEmployeeModal').modal('show');
 			
+
+		});
+
+		$('#send-mail').click(function() {
+
+			var selected_member_id = [];
+
+			$('input.sub-checkbox:checkbox:checked').each(function(key, val) {
+				// console.log($(this).attr('data-id'));
+			    selected_member_id.push($(this).attr('data-id'));
+			});
+
+			alert("deepu");
+
+			console.log(selected_member_id);
+
+			$.ajax({
+				type: "POST",
+    			url: '{{ url("/send-bulk-mail") }}',
+    			headers: {
+                    'X-CSRF-Token': '{{ csrf_token() }}', 
+               	},
+    			data : { 
+    				selected_member_id : selected_member_id,
+    			},
+
+    			dataType: 'JSON',
+    			success: function(data) {
+			      
+			      console.log(data);
+			      $('.send-mail-alert-msg').fadeOut(3000);
+			    },
+
+			});
 
 		});
 

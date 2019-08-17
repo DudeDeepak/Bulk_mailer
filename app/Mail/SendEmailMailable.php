@@ -34,11 +34,6 @@ class SendEmailMailable extends Mailable
     {
         // return $this->view('welcome');
 
-        $name = env('MAIL_FROM_NAME');
-        $address = env('MAIL_FROM_EMAIL');
-
-        return $this->view('mail.mail_template')
-                    ->from($address, $name)
-                    ->subject($this->subject);
+        return $this->view('mail.mail_template');
     }
 }
