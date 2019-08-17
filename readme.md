@@ -18,13 +18,20 @@ Bulk Mailer is a web application biult on laravel 5.3 to sent bulk email to the 
 
 1 . Clone the project into localhost
 
-2 . Setup the .env with neccessory details (Database conf and email conf is must) 
+2 . Setup the .env with neccessory details (Database conf) :- 
+
+		DB_CONNECTION=mysql
+		DB_HOST=<mysql-host>
+		DB_PORT=3306
+		DB_DATABASE=<mysql-db>
+		DB_USERNAME=<mysql-username>
+		DB_PASSWORD=<mysql-password>
 
 3 . Run the following command to create required schema in the database :- 
 		
 		php artisan migrate
 
-4 . Set the configuration for the mail server on the .env file with the following details
+4 . Set the configuration for the mail server on the .env file with the following details :-
 
 		MAIL_DRIVER=smtp
 		MAIL_HOST=smtp.mailtrap.io

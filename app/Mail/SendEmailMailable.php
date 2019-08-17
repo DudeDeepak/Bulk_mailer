@@ -31,6 +31,8 @@ class SendEmailMailable extends Mailable
      */
     public function build()
     {
+        // Sending Bulk mail to specific user with the template
+
         return $this->subject($this->subject)->view('mail.mail_template');
     }
 }

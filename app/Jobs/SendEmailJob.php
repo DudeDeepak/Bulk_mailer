@@ -38,6 +38,8 @@ class SendEmailJob implements ShouldQueue
      */
     public function handle()
     {
+
+        // Pass the call with required detais to the mailable class
         
         Mail::to($this->email)->send(new SendEmailMailable($this->subject, $this->message));
     }

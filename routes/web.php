@@ -11,12 +11,28 @@
 |
 */
 
+// Crud operations on Contact list 
+
+Route::get('/', 'MemberController@list_member');
+
+Route::post('/add-member', 'MemberController@add_member');
+
+Route::post('/edit-member/{id}', 'MemberController@edit_member');
+
+Route::post('/delete-member/{id}', 'MemberController@delete_member');
+
+// Sending Bulk Mail to set of users
+
+Route::post('/send-bulk-mail', 'MailController@send_mail');
+
+
+//*************************** Testing purpose ******************************
+
 // use Illuminate\Support\Facades\Mail;
 // use App\Mail\SendEmailMailable;
 // use App\Jobs\SendEmailJob;
 // use Carbon\Carbon;
 
-// Testing purpose
 
 // Route::get('/send-mail', function() {
 
@@ -41,13 +57,4 @@
 //     return view('mail.member_list');
 // });
 
-Route::get('/', 'MemberController@list_member');
-
-Route::post('/add-member', 'MemberController@add_member');
-
-Route::post('/edit-member/{id}', 'MemberController@edit_member');
-
-Route::post('/delete-member/{id}', 'MemberController@delete_member');
-
-Route::post('/send-bulk-mail', 'MailController@send_mail');
 

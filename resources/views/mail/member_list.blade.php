@@ -262,8 +262,10 @@
 </style>
 </head>
 <body>
-    <div class="container">
 
+	<!-- UI Page with contact list -->
+
+    <div class="container">
     	<div style="margin: 20px">
     		<p class="send-mail-success-alert-msg alert alert-success"></p>
     		<p class="send-mail-failure-alert-msg alert alert-danger"></p>
@@ -338,21 +340,13 @@
                     @endforeach
                 </tbody>
             </table>
-			<div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
-            </div>
         </div>
     </div>
-	<!-- Edit Modal HTML -->
+
+    <!-- UI Page with contact list -->
+
+	<!-- Add Member Modal Popup -->
+	
 	<div id="addEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -380,7 +374,11 @@
 			</div>
 		</div>
 	</div>
-	<!-- Edit Modal HTML -->
+
+	<!-- Add Member Modal Popup -->
+
+	<!-- Edit Member Modal Popup -->
+
 	<div id="editEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -408,7 +406,11 @@
 			</div>
 		</div>
 	</div>
-	<!-- Delete Modal HTML -->
+
+	<!-- Edit Member Modal Popup -->
+
+	<!-- Delete Member Modal Popup -->
+
 	<div id="deleteEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -430,6 +432,11 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Delete Member Modal Popup -->
+
+
+	<!-- Mail Member Modal Popup -->
 
 	<div id="mailEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
@@ -458,6 +465,10 @@
 		</div>
 	</div>
 
+	<!-- Mail Member Modal Popup -->
+
+	<!-- javascript -->
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>    
@@ -465,9 +476,11 @@
 	
 	$(document).ready(function(){
 		// Activate tooltip
+
 		$('[data-toggle="tooltip"]').tooltip();
 		
 		// Select/Deselect checkboxes
+
 		var checkbox = $('table tbody input[type="checkbox"]');
 		$("#selectAll").click(function(){
 			if(this.checked){
@@ -486,6 +499,8 @@
 			}
 		});
 
+		// Update popup with user info while update
+
 		$('.edit').click(function() {
 			
 			var member_id = $(this).parent().siblings().find(".sub-checkbox").attr('data-id');
@@ -501,6 +516,8 @@
 
 		});
 
+		// update the form with required user details while deleting
+
 		$('.del').click(function() {
 
 			var member_id = $(this).parent().siblings().find(".sub-checkbox").attr('data-id');
@@ -512,23 +529,22 @@
 
 		});
 
+
+		// ajax call for send bulk mail with queue functionality
+
 		$('#send-mail').click(function() {
 
 			var selected_member_id = [];
 			var mail_subject = $('#mail-subject').val();
 			var mail_content = $('.summernote').summernote('code');
 
-			console.log(mail_subject, mail_content)
+			console.log(mail_subject, mail_content);
 
 			$('input.sub-checkbox:checkbox:checked').each(function(key, val) {
-				// console.log($(this).attr('data-id'));
 			    selected_member_id.push($(this).attr('data-id'));
 			});
 
 			$('#mailEmployeeModal').modal('hide');
-
-
-			// console.log(selected_member_id);
 
 			$.ajax({
 				type: "POST",
@@ -545,7 +561,7 @@
     			dataType: 'JSON',
     			success: function(data) {
 			      
-			      console.log(data.status);
+			      // console.log(data.status);
 
 			      if(data.status == 300) {
 
@@ -554,7 +570,6 @@
 				      $('.send-mail-failure-alert-msg').html(data.msg);
 				      $('.send-mail-failure-alert-msg').css('display', 'block');
 				      $('.send-mail-failure-alert-msg').fadeOut(3000);
-				      // $('.send-mail-failure-alert-msg').css('display', 'none');
 			      		console.log('finished condition');
 
 			      } else if(data.status == 200) {
@@ -562,7 +577,6 @@
 				      $('.send-mail-success-alert-msg').html(data.msg);
 				      $('.send-mail-success-alert-msg').css('display', 'block');
 				      $('.send-mail-success-alert-msg').fadeOut(3000);
-				      // $('.send-mail-success-alert-msg').css('display', 'none');
 
 			      }
 			    },
@@ -571,17 +585,21 @@
 
 		});
 
+		// fade session flash messages that comes from controller
+
 		$('.alert-msg').fadeOut(3000);
+		
+		// setting summer note with specific wdth
+
 		$('.summernote').summernote({
 			height: 200,
 		});
 
-
 	});
 
-
-
 	</script>
+
+	<!-- javascript -->
 
 </body>
 </html>                                		                            

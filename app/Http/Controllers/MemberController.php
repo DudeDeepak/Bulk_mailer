@@ -10,6 +10,9 @@ use Redirect;
 
 class MemberController extends Controller
 {
+
+
+	// Function to list the contacts 
     
     public function list_member() {
 
@@ -21,8 +24,12 @@ class MemberController extends Controller
 
     }
 
+
+    // Function to add the contacts into the list
+
     public function add_member(Request $request) {
 
+    	// validate input
 
 		$input = [
 	             'name'   => $request->input('name'),
@@ -39,6 +46,8 @@ class MemberController extends Controller
 
 	  	$validator = Validator::make($input, $rules, $messages);
 
+	  	// Check if the user mail is alerady present
+
 	  	if(Member::where('email', $request->input('email'))->exists()) {
 
 		  	Session::flash('member-already-exist', 'The email is already taken');
@@ -47,10 +56,14 @@ class MemberController extends Controller
 
 	  	}
 
+	  	// Create the user
+
 	  	Member::create([
 	  		'name' => $request->input('name'),
 	  		'email' => $request->input('email')
     	]);
+
+    	// redirect back with proper message
 
 	  	Session::flash('success', 'The member has been created');
     	
@@ -58,8 +71,12 @@ class MemberController extends Controller
 
     }
 
+    // Function to edit the contact in the list
+
     public function edit_member(Request $request, $id) {
     	
+    	//validate user
+
 		$input = [
 	             'edit-member-name'   => $request->input('edit-member-name'),
 	             'edit-member-email' => $request->input('edit-member-email')
@@ -75,6 +92,10 @@ class MemberController extends Controller
 
 	  	$validator = Validator::make($input, $rules, $messages);
 
+
+	  	// check if the member is already present or got the 
+	  	// the requiest from outside ui client and update 
+
 	  	if(Member::where('id', '=', $id)->exists()) {
 
 		  	Member::where('id', '=', $id)->update([
@@ -86,7 +107,9 @@ class MemberController extends Controller
 	    	
 		    return Redirect::to('member-list');
 
-	  	} 
+	  	}
+
+	  	// in case of error send back appropriate message
 
 	  	Session::flash('update-issue', 'Some issue caused during update');
     	
@@ -94,7 +117,11 @@ class MemberController extends Controller
 
     }
 
+    // Function to delete the contacts in the list
+
     public function delete_member($id) {
+
+    	// check if the user is present and delete it
     	
 	  	if(Member::where('id', '=', $id)->exists()) {
 
@@ -105,6 +132,8 @@ class MemberController extends Controller
 		    return Redirect::to('member-list');
 
 	  	} 
+
+	  	// in case of error send back appropriate message
 
 	  	Session::flash('delete-issue', 'Some issue caused during deleting');
     	
