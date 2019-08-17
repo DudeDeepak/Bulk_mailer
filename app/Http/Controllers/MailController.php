@@ -13,9 +13,18 @@ class MailController extends Controller
 
 	public function send_mail(Request $request) {
 
+
+		$response_array = [];
+
 		if(empty($request->input('selected_member_id'))) {
 
-			dd('no recipient selected');
+			$response_array['status'] = 300;
+			$response_array['msg'] = "No recipients selected to send the mail !!";
+
+			header('Content-Type: application/json');
+			echo json_encode($response_array);
+
+			return;
 		}
 
 		$selected_member_info_array = Member::whereIn('id', $request->input('selected_member_id'))->get();
@@ -32,9 +41,11 @@ class MailController extends Controller
 
 		}
 		
+		$response_array['status'] = 200;
+		$response_array['msg'] = "Mail request has been sent successfully !!";
 
-		dd('Email Sent');
-
+		header('Content-Type: application/json');
+		echo json_encode($response_array);
 
 	}
     

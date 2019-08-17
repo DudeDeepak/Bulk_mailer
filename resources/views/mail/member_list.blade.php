@@ -230,16 +230,32 @@
 	}	
 	.modal form label {
 		font-weight: normal;
-	}	
+	}
+/*	.send-mail-success-alert-msg, .send-mail-failure-alert-msg {
+	  	width: 80%;
+	  	position:fixed; 
+	  	top: calc(50% - 25px); // half of width
+	  	left: calc(50% - 50px); // half of height
+	}
+
+	.ui-screen {
+	background-color: black;
+	-webkit-transition: background 3s linear;
+	-moz-transition: background 3s linear;
+	-ms-transition: background 3s linear;
+	-o-transition: background 3s linear;
+	transition: background 3s linear;
+	}
+*/
+
 </style>
 </head>
 <body>
     <div class="container">
 
     	<div style="margin: 20px">
-    		<p class="send-mail-alert-msg alert alert-success">
-    			Mail has been sent to the selected recipients
-    		</p>
+    		<p class="send-mail-success-alert-msg alert alert-success"></p>
+    		<p class="send-mail-failure-alert-msg alert alert-danger"></p>
     	</div>
 
     	<div style="margin: 20px">
@@ -464,7 +480,6 @@
 
 		$('.del').click(function() {
 
-
 			var member_id = $(this).parent().siblings().find(".sub-checkbox").attr('data-id');
 			
 			$('#delete-modal-form').attr('action', '/delete-member/'+member_id);
@@ -483,9 +498,9 @@
 			    selected_member_id.push($(this).attr('data-id'));
 			});
 
-			alert("deepu");
+			$('#mailEmployeeModal').modal('hide');
 
-			console.log(selected_member_id);
+			// console.log(selected_member_id);
 
 			$.ajax({
 				type: "POST",
@@ -500,8 +515,26 @@
     			dataType: 'JSON',
     			success: function(data) {
 			      
-			      console.log(data);
-			      $('.send-mail-alert-msg').fadeOut(3000);
+			      console.log(data.status);
+
+			      if(data.status == 300) {
+
+			      		console.log('entered condition');
+
+				      $('.send-mail-failure-alert-msg').html(data.msg);
+				      $('.send-mail-failure-alert-msg').css('display', 'block');
+				      $('.send-mail-failure-alert-msg').fadeOut(3000);
+				      // $('.send-mail-failure-alert-msg').css('display', 'none');
+			      		console.log('finished condition');
+
+			      } else if(data.status == 200) {
+
+				      $('.send-mail-success-alert-msg').html(data.msg);
+				      $('.send-mail-success-alert-msg').css('display', 'block');
+				      $('.send-mail-success-alert-msg').fadeOut(3000);
+				      // $('.send-mail-success-alert-msg').css('display', 'none');
+
+			      }
 			    },
 
 			});
@@ -509,6 +542,8 @@
 		});
 
 		$('.alert-msg').fadeOut(3000);
+		$('.send-mail-success-alert-msg').css('display', 'none');
+		$('.send-mail-failure-alert-msg').css('display', 'none');
 
 	});
 
