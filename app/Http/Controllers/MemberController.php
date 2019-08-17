@@ -52,7 +52,7 @@ class MemberController extends Controller
 
 		  	Session::flash('member-already-exist', 'The email is already taken');
 	    	
-	    	return Redirect::to('member-list');
+	    	return Redirect::to('/');
 
 	  	}
 
@@ -67,7 +67,7 @@ class MemberController extends Controller
 
 	  	Session::flash('success', 'The member has been created');
     	
-	    return Redirect::to('member-list');
+	    return Redirect::to('/');
 
     }
 
@@ -105,7 +105,7 @@ class MemberController extends Controller
 
 		  	Session::flash('success', 'The member information has been updated');
 	    	
-		    return Redirect::to('member-list');
+		    return Redirect::to('/');
 
 	  	}
 
@@ -113,7 +113,7 @@ class MemberController extends Controller
 
 	  	Session::flash('update-issue', 'Some issue caused during update');
     	
-	    return Redirect::to('member-list');
+	    return Redirect::to('/');
 
     }
 
@@ -129,7 +129,7 @@ class MemberController extends Controller
 
 		  	Session::flash('success', 'The member has been deleted');
 	    	
-		    return Redirect::to('member-list');
+		    return Redirect::to('/');
 
 	  	} 
 
@@ -137,7 +137,7 @@ class MemberController extends Controller
 
 	  	Session::flash('delete-issue', 'Some issue caused during deleting');
     	
-	    return Redirect::to('member-list');
+	    return Redirect::to('/');
 
     }
 
