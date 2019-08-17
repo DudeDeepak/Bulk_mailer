@@ -33,6 +33,10 @@ Bulk Mailer is a web application biult on laravel 5.3 to sent bulk email to the 
 
 4 . Set the configuration for the mail server on the .env file with the following details :-
 
+		MAIL_FROM_NAME=<from-email-name>
+		MAIL_FROM_EMAIL=<from-email-id>
+
+
 		MAIL_DRIVER=smtp
 		MAIL_HOST=smtp.mailtrap.io
 		MAIL_PORT=2525
@@ -59,7 +63,15 @@ you can checkout for other mail servers too
 		php artisan serve --port=<port-number>
 
 7 . Use chrome browser preferentially and hit the following URL on the screen and 
-	you should be able see the application running in that machine at port <port-number>  
+	you should be able see the application running in that machine at port <port-number>
+
+## Possible fixes
+
+1 . At times while changing configurations on env or config folder please do reastart 
+	laravel artisan server with the following commands
+
+		php artisan cache:clear
+		php artisan config:cache
 
 ## Contribution
 
