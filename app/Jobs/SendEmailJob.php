@@ -40,6 +40,5 @@ class SendEmailJob implements ShouldQueue
     {
         
         Mail::to($this->email)->send(new SendEmailMailable($this->subject, $this->message));
-
     }
 }

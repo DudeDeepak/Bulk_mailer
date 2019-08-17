@@ -11,10 +11,10 @@
 |
 */
 
-use Illuminate\Support\Facades\Mail;
-use App\Mail\SendEmailMailable;
-use App\Jobs\SendEmailJob;
-use Carbon\Carbon;
+// use Illuminate\Support\Facades\Mail;
+// use App\Mail\SendEmailMailable;
+// use App\Jobs\SendEmailJob;
+// use Carbon\Carbon;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,11 +29,9 @@ Route::get('/', function () {
 // 	$subject = "This is a sample subject !";
 // 	$message = "This is a sample message !!";
 
-
 // 	$email = "deepakpalakkal2795@gmail.com";
 
-//     // Mail::to($email)->send(new SendEmailMailable($subject, $message));
-
+//     Mail::to($email)->send(new SendEmailMailable($subject, $message));
 
 // 	$job = (new SendEmailJob($email, $subject, $message))->delay(Carbon::now()->addSeconds(5));
 // 	dispatch($job);
