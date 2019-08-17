@@ -29,8 +29,8 @@ class MailController extends Controller
 
 		$selected_member_info_array = Member::whereIn('id', $request->input('selected_member_id'))->get();
 
-		$subject = "This is a sample subject !";
-		$message = "This is a sample message !!";
+		$subject = $request->input('mail_subject');
+		$message = $request->input('mail_content');
 
 		foreach($selected_member_info_array as $selected_member_info) {
 

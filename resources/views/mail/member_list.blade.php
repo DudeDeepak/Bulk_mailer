@@ -9,8 +9,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
 <style type="text/css">
     body {
         color: #566787;
@@ -231,6 +230,18 @@
 	.modal form label {
 		font-weight: normal;
 	}
+
+	.send-mail-success-alert-msg, .send-mail-failure-alert-msg {
+		display: none;
+	}
+
+	.bigModal {
+		position: absolute;
+  		left: -80%;
+  		top: 50%;
+		width: 1080px;
+  		/*transform: translate(-50%, -50%);*/*/
+	}
 /*	.send-mail-success-alert-msg, .send-mail-failure-alert-msg {
 	  	width: 80%;
 	  	position:fixed; 
@@ -422,12 +433,20 @@
 
 	<div id="mailEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
-			<div class="modal-content">
+			<div class="modal-content bigModal">
 				<div class="modal-header">						
 					<h4 class="modal-title">Send Email</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 				<div class="modal-body">					
+					<div class="form-group">
+						<label>Subject : </label>
+						<input id="mail-subject" name="mail-subject" type="text" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Content : </label>
+						<textarea rows="2" cols="200" name="summernoteInput" class="summernote"></textarea>
+					</div>
 					<p>Are you sure you want to emails to selected members?</p>
 					<p class="text-warning"><small>This action cannot be undone.</small></p>
 				</div>
@@ -439,7 +458,11 @@
 		</div>
 	</div>
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>    
 	<script type="text/javascript">
+	
 	$(document).ready(function(){
 		// Activate tooltip
 		$('[data-toggle="tooltip"]').tooltip();
@@ -492,6 +515,10 @@
 		$('#send-mail').click(function() {
 
 			var selected_member_id = [];
+			var mail_subject = $('#mail-subject').val();
+			var mail_content = $('.summernote').summernote('code');
+
+			console.log(mail_subject, mail_content)
 
 			$('input.sub-checkbox:checkbox:checked').each(function(key, val) {
 				// console.log($(this).attr('data-id'));
@@ -499,6 +526,7 @@
 			});
 
 			$('#mailEmployeeModal').modal('hide');
+
 
 			// console.log(selected_member_id);
 
@@ -510,6 +538,8 @@
                	},
     			data : { 
     				selected_member_id : selected_member_id,
+    				mail_subject : mail_subject,
+    				mail_content : mail_content
     			},
 
     			dataType: 'JSON',
@@ -542,8 +572,10 @@
 		});
 
 		$('.alert-msg').fadeOut(3000);
-		$('.send-mail-success-alert-msg').css('display', 'none');
-		$('.send-mail-failure-alert-msg').css('display', 'none');
+		$('.summernote').summernote({
+			height: 200,
+		});
+
 
 	});
 
